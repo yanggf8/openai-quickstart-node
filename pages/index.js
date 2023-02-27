@@ -6,6 +6,16 @@ export default function Home() {
   const [animalInput, setAnimalInput] = useState("");
   const [result, setResult] = useState();
 
+  function onKeyDown(event) {
+    // 'keypress' event misbehaves on mobile so we track 'Enter' key via 'keydown' event
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      event.stopPropagation();
+      this.onSubmit();
+    }
+  }
+
+
   async function onSubmit(event) {
     event.preventDefault();
     try {
@@ -48,6 +58,7 @@ export default function Home() {
             placeholder="Enter an animal"
             value={animalInput}
             onChange={(e) => setAnimalInput(e.target.value)}
+            onKeyDown={(e) => { if(e.key === 'Enter') {onSubmit(e)}}}
           />
           <input type="submit" value="Generate names" />
         </form>
